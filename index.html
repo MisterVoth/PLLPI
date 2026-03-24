@@ -2,59 +2,153 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>PLLPI Test</title>
+  <title>PLLPI Test Scoring</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <style>
-    body { font-family: Arial, sans-serif; max-width: 600px; margin: 40px auto; }
-    .question { margin-bottom: 20px; }
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 700px;
+      margin: 40px auto;
+      padding: 0 16px;
+      line-height: 1.5;
+    }
+
+    .question {
+      margin-bottom: 24px;
+      padding: 16px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+    }
+
+    .scale label {
+      display: inline-block;
+      margin-right: 12px;
+    }
+
+    button {
+      padding: 10px 16px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    #preview {
+      margin-top: 24px;
+      padding: 16px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      background: #f7f7f7;
+      white-space: pre-line;
+    }
+
+    .hidden {
+      display: none;
+    }
   </style>
 </head>
 <body>
 
-<h1>PLLPI Test (3 Questions)</h1>
+  <h1>PLLPI Test (3 Questions)</h1>
+  <p>Please answer all three questions, then calculate and submit.</p>
 
-<form action="https://formspree.io/f/maqpgegp" method="POST">
+  <form id="pllpi-form" action="https://formspree.io/f/maqpgegp" method="POST">
+    <label for="email"><strong>Email:</strong></label><br>
+    <input type="email" id="email" name="email" required><br><br>
 
-  <!-- EMAIL -->
-  <label>Email:</label><br>
-  <input type="email" name="email" required><br><br>
+    <div class="question">
+      <p><strong>1.</strong> I get bored quickly when activities become repetitive.</p>
+      <div class="scale">
+        <label><input type="radio" name="q1" value="1" required> 1</label>
+        <label><input type="radio" name="q1" value="2"> 2</label>
+        <label><input type="radio" name="q1" value="3"> 3</label>
+        <label><input type="radio" name="q1" value="4"> 4</label>
+        <label><input type="radio" name="q1" value="5"> 5</label>
+      </div>
+    </div>
 
-  <!-- Q1 -->
-  <div class="question">
-    <p>1. I get bored quickly when activities become repetitive.</p>
-    <label><input type="radio" name="q1" value="1" required>1</label>
-    <label><input type="radio" name="q1" value="2">2</label>
-    <label><input type="radio" name="q1" value="3">3</label>
-    <label><input type="radio" name="q1" value="4">4</label>
-    <label><input type="radio" name="q1" value="5">5</label>
-  </div>
+    <div class="question">
+      <p><strong>2.</strong> I often seek new or intense experiences to stay interested.</p>
+      <div class="scale">
+        <label><input type="radio" name="q2" value="1" required> 1</label>
+        <label><input type="radio" name="q2" value="2"> 2</label>
+        <label><input type="radio" name="q2" value="3"> 3</label>
+        <label><input type="radio" name="q2" value="4"> 4</label>
+        <label><input type="radio" name="q2" value="5"> 5</label>
+      </div>
+    </div>
 
-  <!-- Q2 -->
-  <div class="question">
-    <p>2. I seek new or intense experiences.</p>
-    <label><input type="radio" name="q2" value="1" required>1</label>
-    <label><input type="radio" name="q2" value="2">2</label>
-    <label><input type="radio" name="q2" value="3">3</label>
-    <label><input type="radio" name="q2" value="4">4</label>
-    <label><input type="radio" name="q2" value="5">5</label>
-  </div>
+    <div class="question">
+      <p><strong>3.</strong> Once something stops feeling exciting, I lose interest in it.</p>
+      <div class="scale">
+        <label><input type="radio" name="q3" value="1" required> 1</label>
+        <label><input type="radio" name="q3" value="2"> 2</label>
+        <label><input type="radio" name="q3" value="3"> 3</label>
+        <label><input type="radio" name="q3" value="4"> 4</label>
+        <label><input type="radio" name="q3" value="5"> 5</label>
+      </div>
+    </div>
 
-  <!-- Q3 -->
-  <div class="question">
-    <p>3. I lose interest once something stops being exciting.</p>
-    <label><input type="radio" name="q3" value="1" required>1</label>
-    <label><input type="radio" name="q3" value="2">2</label>
-    <label><input type="radio" name="q3" value="3">3</label>
-    <label><input type="radio" name="q3" value="4">4</label>
-    <label><input type="radio" name="q3" value="5">5</label>
-  </div>
+    <textarea id="results" name="results" class="hidden"></textarea>
+    <input type="hidden" id="profile" name="profile">
 
-  <!-- Hidden field (future use) -->
-  <textarea name="results" hidden></textarea>
+    <button type="button" id="submit-btn">Calculate Results and Submit</button>
+  </form>
 
-  <button type="submit">Submit Test</button>
+  <div id="preview" class="hidden"></div>
 
-</form>
+  <script>
+    const submitBtn = document.getElementById("submit-btn");
+    const form = document.getElementById("pllpi-form");
+    const preview = document.getElementById("preview");
+    const resultsField = document.getElementById("results");
+    const profileField = document.getElementById("profile");
 
+    function getRadioValue(name) {
+      const checked = document.querySelector(`input[name="${name}"]:checked`);
+      return checked ? parseInt(checked.value, 10) : null;
+    }
+
+    function classifyScore(percent) {
+      if (percent >= 67) return "High novelty/stimulation pattern";
+      if (percent >= 34) return "Moderate novelty/stimulation pattern";
+      return "Low novelty/stimulation pattern";
+    }
+
+    submitBtn.addEventListener("click", function () {
+      const email = document.getElementById("email").value.trim();
+      const q1 = getRadioValue("q1");
+      const q2 = getRadioValue("q2");
+      const q3 = getRadioValue("q3");
+
+      if (!email || q1 === null || q2 === null || q3 === null) {
+        alert("Please complete your email and all three questions.");
+        return;
+      }
+
+      const rawTotal = q1 + q2 + q3;
+      const maxTotal = 15;
+      const percent = Math.round((rawTotal / maxTotal) * 100);
+      const profile = classifyScore(percent);
+
+      const resultText =
+`Test Score Summary
+
+Raw total: ${rawTotal} / ${maxTotal}
+Percent: ${percent}%
+Profile: ${profile}
+
+Item responses:
+q1: ${q1}
+q2: ${q2}
+q3: ${q3}`;
+
+      preview.textContent = resultText;
+      preview.classList.remove("hidden");
+
+      resultsField.value = resultText;
+      profileField.value = profile;
+
+      form.submit();
+    });
+  </script>
 </body>
 </html>
