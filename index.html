@@ -2,153 +2,230 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>PLLPI Test Scoring</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pornography Learning Loop Profile Inventory (PLLPI)</title>
   <style>
+    :root {
+      --bg: #f7f8fa;
+      --card: #ffffff;
+      --text: #1f2937;
+      --muted: #6b7280;
+      --border: #d1d5db;
+      --accent: #1f4b99;
+      --accent-soft: #e8eefb;
+      --danger: #b91c1c;
+      --success: #166534;
+    }
+
+    * { box-sizing: border-box; }
+
     body {
-      font-family: Arial, sans-serif;
-      max-width: 700px;
-      margin: 40px auto;
-      padding: 0 16px;
+      margin: 0;
+      padding: 24px;
+      font-family: Arial, Helvetica, sans-serif;
+      background: var(--bg);
+      color: var(--text);
       line-height: 1.5;
     }
 
-    .question {
-      margin-bottom: 24px;
-      padding: 16px;
-      border: 1px solid #ddd;
-      border-radius: 8px;
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
     }
 
-    .scale label {
-      display: inline-block;
-      margin-right: 12px;
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px;
+      margin-bottom: 20px;
+    }
+
+    h1, h2, h3 {
+      margin-top: 0;
+    }
+
+    .intro {
+      color: var(--muted);
+      margin-bottom: 12px;
+    }
+
+    .scale-guide {
+      background: var(--accent-soft);
+      border: 1px solid #c7d6f7;
+      border-radius: 8px;
+      padding: 12px 14px;
+      margin: 16px 0 20px;
+      font-size: 14px;
+    }
+
+    .field {
+      margin-bottom: 18px;
+    }
+
+    label.label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 6px;
+    }
+
+    input[type="email"] {
+      width: 100%;
+      max-width: 420px;
+      padding: 10px 12px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 16px;
+    }
+
+    .section {
+      margin-top: 28px;
+      padding-top: 8px;
+      border-top: 2px solid #e5e7eb;
+    }
+
+    .section h2 {
+      font-size: 22px;
+      margin-bottom: 6px;
+    }
+
+    .section p.section-desc {
+      color: var(--muted);
+      margin-top: 0;
+      margin-bottom: 18px;
+    }
+
+    .question {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 16px;
+      margin-bottom: 14px;
+      background: #fff;
+    }
+
+    .question-text {
+      margin: 0 0 12px;
+      font-size: 16px;
+    }
+
+    .options {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px 14px;
+    }
+
+    .option {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 15px;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 24px;
     }
 
     button {
-      padding: 10px 16px;
+      appearance: none;
+      border: 1px solid var(--accent);
+      background: var(--accent);
+      color: white;
+      border-radius: 8px;
+      padding: 12px 16px;
       font-size: 16px;
       cursor: pointer;
     }
 
-    #preview {
-      margin-top: 24px;
-      padding: 16px;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      background: #f7f7f7;
+    button.secondary {
+      background: white;
+      color: var(--accent);
+    }
+
+    .preview {
       white-space: pre-line;
+      background: #f9fafb;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 16px;
+      margin-top: 18px;
     }
 
     .hidden {
       display: none;
     }
+
+    .error {
+      color: var(--danger);
+      font-weight: bold;
+      margin-top: 12px;
+    }
+
+    .success-note {
+      color: var(--success);
+      font-size: 14px;
+      margin-top: 8px;
+    }
+
+    @media (max-width: 640px) {
+      body { padding: 14px; }
+      .card { padding: 16px; }
+      .options { gap: 8px 10px; }
+      .option { min-width: 74px; }
+    }
   </style>
 </head>
 <body>
+  <main class="container">
+    <div class="card">
+      <h1>Pornography Learning Loop Profile Inventory (PLLPI)</h1>
+      <p class="intro">
+        Please rate how true each statement has been for you over the past 6–12 months.
+      </p>
 
-  <h1>PLLPI Test (3 Questions)</h1>
-  <p>Please answer all three questions, then calculate and submit.</p>
-
-  <form id="pllpi-form" action="https://formspree.io/f/maqpgegp" method="POST">
-    <label for="email"><strong>Email:</strong></label><br>
-    <input type="email" id="email" name="email" required><br><br>
-
-    <div class="question">
-      <p><strong>1.</strong> I get bored quickly when activities become repetitive.</p>
-      <div class="scale">
-        <label><input type="radio" name="q1" value="1" required> 1</label>
-        <label><input type="radio" name="q1" value="2"> 2</label>
-        <label><input type="radio" name="q1" value="3"> 3</label>
-        <label><input type="radio" name="q1" value="4"> 4</label>
-        <label><input type="radio" name="q1" value="5"> 5</label>
+      <div class="scale-guide">
+        <strong>Response Scale</strong><br>
+        1 = Strongly Disagree<br>
+        2 = Disagree<br>
+        3 = Neutral / Unsure<br>
+        4 = Agree<br>
+        5 = Strongly Agree
       </div>
+
+      <form id="pllpi-form" action="https://formspree.io/f/maqpgegp" method="POST" novalidate>
+        <div class="field">
+          <label class="label" for="email">Email</label>
+          <input type="email" id="email" name="email" required>
+          <div class="success-note">Your responses and computed summary will be sent to you through the form submission workflow.</div>
+        </div>
+
+        <div id="questionnaire"></div>
+
+        <textarea id="results" name="results" class="hidden"></textarea>
+        <input type="hidden" id="profile" name="profile">
+        <input type="hidden" id="nsdScore" name="nsd_score">
+        <input type="hidden" id="errScore" name="err_score">
+        <input type="hidden" id="hccScore" name="hcc_score">
+        <input type="hidden" id="sicScore" name="sic_score">
+        <input type="hidden" id="srcScore" name="src_score">
+
+        <div class="actions">
+          <button type="button" id="submit-btn">Calculate Results and Submit</button>
+          <button type="button" class="secondary" id="preview-btn">Preview Results Only</button>
+        </div>
+
+        <div id="error-message" class="error hidden"></div>
+      </form>
     </div>
 
-    <div class="question">
-      <p><strong>2.</strong> I often seek new or intense experiences to stay interested.</p>
-      <div class="scale">
-        <label><input type="radio" name="q2" value="1" required> 1</label>
-        <label><input type="radio" name="q2" value="2"> 2</label>
-        <label><input type="radio" name="q2" value="3"> 3</label>
-        <label><input type="radio" name="q2" value="4"> 4</label>
-        <label><input type="radio" name="q2" value="5"> 5</label>
-      </div>
+    <div class="card">
+      <h2>Result Preview</h2>
+      <div id="preview" class="preview">Your scored summary will appear here after calculation.</div>
     </div>
+  </main>
 
-    <div class="question">
-      <p><strong>3.</strong> Once something stops feeling exciting, I lose interest in it.</p>
-      <div class="scale">
-        <label><input type="radio" name="q3" value="1" required> 1</label>
-        <label><input type="radio" name="q3" value="2"> 2</label>
-        <label><input type="radio" name="q3" value="3"> 3</label>
-        <label><input type="radio" name="q3" value="4"> 4</label>
-        <label><input type="radio" name="q3" value="5"> 5</label>
-      </div>
-    </div>
-
-    <textarea id="results" name="results" class="hidden"></textarea>
-    <input type="hidden" id="profile" name="profile">
-
-    <button type="button" id="submit-btn">Calculate Results and Submit</button>
-  </form>
-
-  <div id="preview" class="hidden"></div>
-
-  <script>
-    const submitBtn = document.getElementById("submit-btn");
-    const form = document.getElementById("pllpi-form");
-    const preview = document.getElementById("preview");
-    const resultsField = document.getElementById("results");
-    const profileField = document.getElementById("profile");
-
-    function getRadioValue(name) {
-      const checked = document.querySelector(`input[name="${name}"]:checked`);
-      return checked ? parseInt(checked.value, 10) : null;
-    }
-
-    function classifyScore(percent) {
-      if (percent >= 67) return "High novelty/stimulation pattern";
-      if (percent >= 34) return "Moderate novelty/stimulation pattern";
-      return "Low novelty/stimulation pattern";
-    }
-
-    submitBtn.addEventListener("click", function () {
-      const email = document.getElementById("email").value.trim();
-      const q1 = getRadioValue("q1");
-      const q2 = getRadioValue("q2");
-      const q3 = getRadioValue("q3");
-
-      if (!email || q1 === null || q2 === null || q3 === null) {
-        alert("Please complete your email and all three questions.");
-        return;
-      }
-
-      const rawTotal = q1 + q2 + q3;
-      const maxTotal = 15;
-      const percent = Math.round((rawTotal / maxTotal) * 100);
-      const profile = classifyScore(percent);
-
-      const resultText =
-`Test Score Summary
-
-Raw total: ${rawTotal} / ${maxTotal}
-Percent: ${percent}%
-Profile: ${profile}
-
-Item responses:
-q1: ${q1}
-q2: ${q2}
-q3: ${q3}`;
-
-      preview.textContent = resultText;
-      preview.classList.remove("hidden");
-
-      resultsField.value = resultText;
-      profileField.value = profile;
-
-      form.submit();
-    });
-  </script>
+  <script src="script.js"></script>
 </body>
 </html>
