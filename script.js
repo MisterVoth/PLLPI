@@ -260,6 +260,31 @@ ${surfaceSummary}`
   };
 }
 
+function buildAdvancedFeedback(scores) {
+  const sorted = Object.entries(scores)
+    .sort((a, b) => b[1] - a[1]);
+
+  const top1 = sorted[0][0];
+  const top2 = sorted[1][0];
+  const lowest = sorted[sorted.length - 1][0];
+
+  const weakness1 = weaknessLibrary[top1];
+  const weakness2 = weaknessLibrary[top2];
+  const strength = strengthLibrary[lowest];
+
+  return `
+Key Patterns Emerging
+
+${weakness1}
+
+${weakness2}
+
+Where You Already Have Leverage
+
+${strength}
+`;
+}
+
 function setHiddenFields(scores, profile, fullText) {
   document.getElementById("results").value = fullText;
   document.getElementById("profile").value = profile;
