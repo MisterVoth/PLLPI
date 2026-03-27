@@ -322,11 +322,14 @@ const fullText = summary.fullText + "\n\n" + advanced;
 
 setHiddenFields(scores, summary.profile, fullText);
 
-  return {
-    error: null,
-    scores,
-    summary
-  };
+return {
+  error: null,
+  scores,
+  summary: {
+    ...summary,
+    fullText: fullText
+  }
+};
 }
 
 function showPreview(summary) {
