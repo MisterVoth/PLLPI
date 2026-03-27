@@ -82,6 +82,32 @@ const questionnaireData = [
   }
 ];
 
+// --- FEEDBACK LIBRARIES ---
+
+const weaknessLibrary = {
+  NSD: "You may find that your attention shifts quickly once something becomes familiar. This can make consistency difficult, not because you lack discipline, but because your system is highly sensitive to novelty and stimulation.",
+
+  ERR: "There are signs that your behavior may be closely tied to how you manage stress, loneliness, or emotional discomfort. This can create a pattern where the behavior becomes a default coping mechanism rather than a conscious choice.",
+
+  HCC: "Your results suggest that repetition and environment play a strong role. Certain times, places, or routines may trigger behavior automatically, often before you are fully aware of the decision.",
+
+  SIC: "There may be moments where your behavior and your sense of self feel misaligned. This can create internal pressure that makes it harder to step out of the cycle, even when you want to.",
+
+  SRC: "In higher-pressure moments, your ability to pause and redirect may drop. This isn’t about willpower—it reflects how your system handles load and impulse under stress."
+};
+
+const strengthLibrary = {
+  NSD: "At the same time, your responsiveness to stimulation can become a strength. When directed intentionally, it allows you to engage quickly, adapt, and find interest where others might disengage.",
+
+  ERR: "The same sensitivity to emotional shifts that creates vulnerability can also become awareness. When developed, it gives you a strong ability to recognize and respond to your internal state earlier.",
+
+  HCC: "Because your patterns are consistent, they are also predictable. That means small changes to your environment can produce meaningful shifts faster than expected.",
+
+  SIC: "Your awareness of alignment between your behavior and your values can become a powerful driver for change when approached with less self-criticism.",
+
+  SRC: "Even if consistency feels difficult at times, your system is capable of rebuilding quickly. Small wins tend to compound faster once a foothold is established."
+};
+
 const form = document.getElementById("pllpi-form");
 const questionnaire = document.getElementById("questionnaire");
 const preview = document.getElementById("preview");
