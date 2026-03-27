@@ -315,8 +315,12 @@ function calculateResults() {
     scores[section.key] = calculateSubscale(formData, section.items);
   }
 
-  const summary = buildSummary(scores);
-  setHiddenFields(scores, summary.profile, summary.fullText);
+const summary = buildSummary(scores);
+const advanced = buildAdvancedFeedback(scores);
+
+const fullText = summary.fullText + "\n\n" + advanced;
+
+setHiddenFields(scores, summary.profile, fullText);
 
   return {
     error: null,
